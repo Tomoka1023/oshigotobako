@@ -1,6 +1,8 @@
 # 環境設定・秘密情報
 app/db.php
 db.php
+app/mail_config.php
+mail_config.php
 .env
 
 # OS / エディタ
