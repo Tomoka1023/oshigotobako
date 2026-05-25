@@ -1,0 +1,499 @@
+/* =========================
+   おしごと箱 共通CSS
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Yu Gothic", "Meiryo", sans-serif;
+    background: #f8f4ef;
+    color: #3f342c;
+    line-height: 1.7;
+}
+
+a {
+    color: #9b5f4d;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   ヘッダー
+========================= */
+
+header {
+    background: #fffaf5;
+    border-bottom: 1px solid #eaded2;
+    box-shadow: 0 2px 10px rgba(80, 50, 30, 0.06);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+nav {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 14px 20px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+nav a {
+    padding: 8px 12px;
+    border-radius: 999px;
+    color: #5c4638;
+}
+
+nav a:hover {
+    background: #f0dfd2;
+    text-decoration: none;
+}
+
+/* =========================
+   メイン・見出し
+========================= */
+
+main {
+    flex: 1;
+    width: min(1180px, calc(100% - 48px));
+    margin: 28px auto;
+    padding: 0 20px 48px;
+}
+
+h2 {
+    margin: 0 0 20px;
+    padding-left: 12px;
+    border-left: 6px solid #d9a48f;
+    font-size: 26px;
+}
+
+h3 {
+    margin-top: 32px;
+    font-size: 20px;
+}
+
+section {
+    margin-bottom: 32px;
+}
+
+/* =========================
+   フッター
+========================= */
+
+footer {
+    text-align: center;
+    padding: 24px 16px;
+    color: #8a776b;
+    font-size: 14px;
+}
+
+/* =========================
+   ボタン・リンクボタン
+========================= */
+
+button,
+.btn,
+input[type="submit"] {
+    display: inline-block;
+    border: none;
+    border-radius: 999px;
+    background: #c98672;
+    color: #fff;
+    padding: 9px 16px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s ease;
+}
+
+button:hover,
+.btn:hover,
+input[type="submit"]:hover {
+    background: #b87360;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+button.danger,
+.btn-danger {
+    background: #b85c5c;
+}
+
+button.danger:hover,
+.btn-danger:hover {
+    background: #9f4848;
+}
+
+/* =========================
+   フォーム
+========================= */
+
+form {
+    margin: 0;
+}
+
+form:not(.search-form):not(.delete-form) {
+    background: #fff;
+    border: 1px solid #eaded2;
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 8px 20px rgba(80, 50, 30, 0.06);
+}
+
+label {
+    font-weight: 700;
+    color: #5c4638;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+    width: 100%;
+    max-width: 560px;
+    padding: 10px 12px;
+    margin-top: 6px;
+    border: 1px solid #d8c8bb;
+    border-radius: 12px;
+    background: #fffdfb;
+    font-size: 15px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: 3px solid #f2d4c8;
+    border-color: #c98672;
+}
+
+.delete-form {
+    display: inline;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+.delete-form button {
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+/* =========================
+   検索エリア・ツールバー
+========================= */
+
+.toolbar {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    flex-direction: column;
+    width: fit-content;
+    max-width: 100%;
+    margin: 20px 0 28px;
+    background: #fffaf5;
+    border: 1px solid #eaded2;
+    border-radius: 18px;
+    padding: 18px;
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: nowrap;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+.search-form input[type="text"] {
+    width: 260px;
+    min-width: 260px;
+    margin-top: 0;
+}
+
+.toolbar .btn {
+    white-space: nowrap;
+}
+
+.toolbar input,
+.toolbar select {
+    width: auto;
+    min-width: 220px;
+    margin-top: 0;
+}
+
+.toolbar p {
+    margin: 0;
+}
+
+/* =========================
+   テーブル
+========================= */
+
+table,
+.table {
+    width: 100%;
+    min-width: 520px;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(80, 50, 30, 0.06);
+    margin: 16px 0 28px;
+}
+
+.table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 16px 0 28px;
+}
+
+th,
+td {
+    border: 1px solid #eaded2;
+    padding: 12px 14px;
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+    background: #f3e5da;
+    color: #5c4638;
+    font-weight: 800;
+}
+
+tr:nth-child(even) td {
+    background: #fffaf6;
+}
+
+td small {
+    color: #8a776b;
+}
+
+.table-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.table-actions form {
+    margin: 0;
+}
+
+/* =========================
+   ダッシュボード
+========================= */
+
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin: 16px 0 32px;
+}
+
+.dashboard-card {
+    border: 1px solid #eaded2;
+    border-radius: 18px;
+    padding: 18px;
+    background: #fff;
+    box-shadow: 0 8px 20px rgba(80, 50, 30, 0.06);
+}
+
+.dashboard-card p {
+    margin: 0 0 8px;
+    color: #8a776b;
+    font-weight: 700;
+}
+
+.dashboard-card strong {
+    font-size: 32px;
+    color: #9b5f4d;
+}
+
+/* =========================
+   メニューリスト
+========================= */
+
+ul {
+    padding-left: 22px;
+    list-style-type: square;
+    color: #272423;
+}
+
+section ul {
+    background: #fff;
+    border: 1px solid #eaded2;
+    border-radius: 18px;
+    padding: 18px 18px 18px 36px;
+    box-shadow: 0 8px 20px rgba(80, 50, 30, 0.05);
+}
+
+section li {
+    margin: 6px 0;
+}
+
+/* =========================
+   メッセージ
+========================= */
+
+.error,
+p[style*="color: red"] {
+    background: #fff0f0;
+    border: 1px solid #e5a3a3;
+    color: #a33f3f !important;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-weight: 700;
+}
+
+.notice {
+    background: #fff9e8;
+    border: 1px solid #ead28a;
+    color: #7a5a1d;
+    padding: 10px 14px;
+    border-radius: 12px;
+}
+
+/* =========================
+   ログイン画面
+========================= */
+
+.login {
+    max-width: 420px;
+    margin: 24px auto;
+}
+
+.login button {
+    width: 100%;
+    margin-top: 8px;
+}
+
+/* =========================
+   スマホ対応
+========================= */
+
+@media (max-width: 700px) {
+    main {
+        margin: 20px auto;
+        padding: 0 14px 40px;
+    }
+
+    nav {
+        padding: 12px 14px;
+        gap: 8px;
+    }
+
+    nav a {
+        padding: 7px 10px;
+        font-size: 14px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    .toolbar {
+        width: 100%;
+        padding: 18px;
+        gap: 14px;
+    }
+
+    .search-form {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .search-form input[type="text"],
+    .search-form button,
+    .toolbar .btn {
+        width: 100%;
+        min-width: 0;
+    }
+
+    table {
+        white-space: nowrap;
+    }
+
+    .table-wrap {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table.is-small {
+        min-width: 290px;
+    }
+
+    .table {
+        min-width: 520px;
+    }
+
+    .table th,
+    .table td {
+        white-space: nowrap;
+    }
+
+    form:not(.search-form):not(.delete-form) {
+        padding: 16px;
+    }
+}
+
+.flash-message {
+    background: #fff9e8;
+    border: 1px solid #ead28a;
+    color: #7a5a1d;
+    padding: 12px 16px;
+    border-radius: 14px;
+    margin-bottom: 18px;
+    font-weight: 700;
+    box-shadow: 0 6px 14px rgba(80, 50, 30, 0.05);
+}
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 18px 0;
+}
+
+.action-buttons .btn,
+.action-buttons button {
+    line-height: 1.4;
+}
+
+.delete-form {
+    display: inline;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
