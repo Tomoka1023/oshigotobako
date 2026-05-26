@@ -76,3 +76,16 @@ CREATE TABLE tasks (
     REFERENCES customers(id)
     ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE attachments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    target_type VARCHAR(50) NOT NULL,
+    target_id INT NOT NULL,
+    original_name VARCHAR(255) NOT NULL,
+    saved_name VARCHAR(255) NOT NULL,
+    file_path VARCHAR(255) NOT NULL,
+    mime_type VARCHAR(100) DEFAULT NULL,
+    file_size INT DEFAULT NULL,
+    uploaded_by INT DEFAULT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
