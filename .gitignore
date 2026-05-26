@@ -18,7 +18,8 @@ tmp/
 cache/
 
 # アップロードファイルがある場合
-uploads/
+storage/uploads/*
+!storage/uploads/.gitkeep
 
 # Composerを使っている場合だけ
 vendor/

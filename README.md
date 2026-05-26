@@ -22,6 +22,12 @@ PHPとMySQLで作成した、顧客・案件・タスクを管理できるシン
   - 管理者メニューから手動送信
   - cron用PHPによる自動通知
   - 送信結果を操作ログに記録
+- ファイル添付機能
+  - 案件へのファイルアップロード
+  - 添付ファイル一覧表示
+  - 添付ファイルのダウンロード
+  - 添付ファイルの削除
+  - アップロード・ダウンロード・削除の操作ログ記録
 
 ## 使用技術
 
@@ -34,6 +40,7 @@ PHPとMySQLで作成した、顧客・案件・タスクを管理できるシン
 - PHPMailer
 - Composer
 - cron
+- ファイルアップロード処理
 
 ## 工夫した点
 
@@ -47,6 +54,11 @@ PHPとMySQLで作成した、顧客・案件・タスクを管理できるシン
 - cron実行用のPHPファイルを用意し、サーバー側で定期実行できる構成にしました。
 - メール送信結果も操作ログに記録し、管理画面から確認できるようにしました。
 - メール設定ファイルは `.gitignore` に追加し、GitHubへSMTP情報が公開されないようにしました。
+- 案件に関連資料を添付できるようにし、アップロード・ダウンロード・削除まで一通り操作できるようにしました。
+- アップロードファイルは `public` 配下ではなく `storage/uploads` に保存し、直接URLからアクセスされにくい構成にしました。
+- 添付ファイルの情報は `attachments` テーブルで管理し、元のファイル名・保存名・ファイルサイズ・MIMEタイプ・アップロード者を記録できるようにしました。
+- ファイルのアップロード、ダウンロード、削除も操作ログに記録し、管理者が操作履歴を確認できるようにしました。
+- `.gitignore` により、実際にアップロードされたファイルがGitHubへ公開されないようにしました。
 
 ## セットアップ方法
 
@@ -56,25 +68,33 @@ PHPとMySQLで作成した、顧客・案件・タスクを管理できるシン
 
 2. Composerの依存関係をインストールします。
 
-    composer install
+    `composer install`
 
-3. app/db.example.php をコピーして app/db.php を作成します。
+3. `app/db.example.php` をコピーして `app/db.php` を作成します。
 
-    cp app/db.example.php app/db.php
+    `cp app/db.example.php app/db.php`
 
-4. app/db.php にデータベース情報を設定します。
+4. `app/db.php` にデータベース情報を設定します。
 
-5. app/mail_config.example.php をコピーして app/mail_config.php を作成します。
+5. `app/mail_config.example.php` をコピーして `app/mail_config.php` を作成します。
 
-    cp app/mail_config.example.php app/mail_config.php
+    `cp app/mail_config.example.php app/mail_config.php`
 
-6. app/mail_config.php にSMTP情報を設定します。
+6. `app/mail_config.php` にSMTP情報を設定します。
 
-7. database/schema.sql をMySQLにインポートします。
+7. `database/schema.sql` をMySQLにインポートします。
 
-8. ブラウザでアクセスします。
+    このSQLには、顧客・案件・タスク・ユーザー・操作ログ・添付ファイル管理用テーブルが含まれています。
 
-    http://localhost:8888/oshigotobako/public/
+8. ファイル添付機能を使用する場合は、以下のディレクトリが存在することを確認します。
+
+    `storage/uploads/`
+
+    このディレクトリには `.gitkeep` のみをGit管理し、実際にアップロードされたファイルは `.gitignore`によりGitHubへ公開しない設定にしています。
+
+9. ブラウザでアクセスします。
+
+   `http://localhost:8888/oshigotobako/public/`
 
 
 ## メール通知機能について
@@ -88,13 +108,31 @@ PHPとMySQLで作成した、顧客・案件・タスクを管理できるシン
 ### cronによる自動通知
 
 - cron実行用のPHPファイルとして、以下を用意しています。
-    cron/send_task_notice.php
+   `cron/send_task_notice.php`
 - ローカル環境で手動実行する場合は、MAMPのPHPを指定して実行します。
-    /Applications/MAMP/bin/php/php8.3.28/bin/php cron/send_task_notice.php
+    `/Applications/MAMP/bin/php/php8.3.28/bin/php cron/send_task_notice.php`
 - 本番環境では、サーバーのcron機能からこのPHPファイルを定期実行する想定です。
+
+## ファイル添付機能について
+
+案件詳細画面から、案件に関連するファイルを添付できます。
+
+主な処理は以下の通りです。
+
+- ファイルアップロード
+- 添付ファイル一覧表示
+- 添付ファイルのダウンロード
+- 添付ファイルの削除
+- アップロード・ダウンロード・削除の操作ログ記録
+
+アップロードされたファイルは `storage/uploads/` に保存し、ファイル情報は `attachments` テーブルで管理しています。  
+`storage/uploads/` は `public` 配下ではなく、直接URLからアクセスされにくい場所に配置しています。
+
+実際にアップロードされたファイルは `.gitignore` によりGitHubへ公開しない設定にしています。
 
 ## 注意事項
 
 - このアプリはポートフォリオ用に作成したものです。
 - 本番運用する場合は、CSRF対策、権限管理、入力バリデーション、監査ログ管理などをさらに強化する必要があります。
-- app/db.php と app/mail_config.php には接続情報やSMTP情報を記載するため、GitHubには公開しないよう .gitignore に追加しています。
+- `app/db.php` と `app/mail_config.php` には接続情報やSMTP情報を記載するため、GitHubには公開しないよう `.gitignore` に追加しています。
+- また、`storage/uploads/` に保存される実際の添付ファイルもGitHubには公開しない設定にしています。
