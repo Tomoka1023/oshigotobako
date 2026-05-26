@@ -131,7 +131,9 @@ require_once BASE_PATH . '/app/views/header.php';
 
         <tr>
             <th>ステータス</th>
-            <td><?= h($status_labels[$deal['status']] ?? $deal['status']) ?></td>
+            <td>
+                <?= h($status_labels[$deal['status'] ?? ''] ?? ($deal['status'] ?? '-')) ?>
+            </td>
         </tr>
 
         <tr>

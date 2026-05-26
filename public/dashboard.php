@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../app/config.php';
 require_once BASE_PATH . '/app/auth.php';
 require_once BASE_PATH . '/app/db.php';
+require_once BASE_PATH . '/app/helpers.php';
 
 $page_title = 'ダッシュボード';
 
@@ -103,7 +104,7 @@ require_once BASE_PATH . '/app/views/header.php';
 
 <p>
     ようこそ、
-    <?= htmlspecialchars($_SESSION['username'], ENT_QUOTES, 'UTF-8') ?>さん
+    <?= h($_SESSION['username'] ?? '') ?>さん
 </p>
 
 <section>
@@ -136,9 +137,9 @@ require_once BASE_PATH . '/app/views/header.php';
     <h3>メニュー</h3>
 
     <ul>
-        <li><a href="<?= BASE_URL ?>/customers/index.php">顧客一覧</a></li>
-        <li><a href="<?= BASE_URL ?>/deals/index.php">案件一覧</a></li>
-        <li><a href="<?= BASE_URL ?>/tasks/index.php">タスク一覧</a></li>
+        <li><a href="<?= url('/customers/index.php') ?>">顧客一覧</a></li>
+        <li><a href="<?= url('/deals/index.php') ?>">案件一覧</a></li>
+        <li><a href="<?= url('/tasks/index.php') ?>">タスク一覧</a></li>
     </ul>
 </section>
 
@@ -161,11 +162,11 @@ require_once BASE_PATH . '/app/views/header.php';
                 <tbody>
                     <?php foreach ($today_tasks as $task): ?>
                         <tr>
-                            <td><?= htmlspecialchars($task['title'], ENT_QUOTES, 'UTF-8') ?></td>
-                            <td><?= htmlspecialchars($task['customer_name'] ?: '-', ENT_QUOTES, 'UTF-8') ?></td>
-                            <td><?= htmlspecialchars($task['deal_title'] ?: '-', ENT_QUOTES, 'UTF-8') ?></td>
+                            <td><?= h($task['title']) ?></td>
+                            <td><?= h($task['customer_name'] ?: '-') ?></td>
+                            <td><?= h($task['deal_title'] ?: '-') ?></td>
                             <td>
-                                <a href="<?= BASE_URL ?>/tasks/show.php?id=<?= (int)$task['id'] ?>">
+                                <a href="<?= url('/tasks/show.php?id=' . (int)$task['id']) ?>">
                                     詳細
                                 </a>
                             </td>
@@ -197,12 +198,12 @@ require_once BASE_PATH . '/app/views/header.php';
                 <tbody>
                     <?php foreach ($upcoming_tasks as $task): ?>
                         <tr>
-                            <td><?= htmlspecialchars($task['due_date'], ENT_QUOTES, 'UTF-8') ?></td>
-                            <td><?= htmlspecialchars($task['title'], ENT_QUOTES, 'UTF-8') ?></td>
-                            <td><?= htmlspecialchars($task['customer_name'] ?: '-', ENT_QUOTES, 'UTF-8') ?></td>
-                            <td><?= htmlspecialchars($task['deal_title'] ?: '-', ENT_QUOTES, 'UTF-8') ?></td>
+                            <td><?= h($task['due_date']) ?></td>
+                            <td><?= h($task['title']) ?></td>
+                            <td><?= h($task['customer_name'] ?: '-') ?></td>
+                            <td><?= h($task['deal_title'] ?: '-') ?></td>
                             <td>
-                                <a href="<?= BASE_URL ?>/tasks/show.php?id=<?= (int)$task['id'] ?>">
+                                <a href="<?= url('/tasks/show.php?id=' . (int)$task['id']) ?>">
                                     詳細
                                 </a>
                             </td>
@@ -228,7 +229,7 @@ require_once BASE_PATH . '/app/views/header.php';
             <tbody>
                 <?php foreach ($deal_status_counts as $key => $count): ?>
                     <tr>
-                        <td><?= htmlspecialchars($status_labels[$key], ENT_QUOTES, 'UTF-8') ?></td>
+                        <td><?= h($status_labels[$key] ?? $key) ?></td>
                         <td><?= (int)$count ?>件</td>
                     </tr>
                 <?php endforeach; ?>

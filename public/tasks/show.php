@@ -2,13 +2,14 @@
 require_once __DIR__ . '/../../app/config.php';
 require_once BASE_PATH . '/app/auth.php';
 require_once BASE_PATH . '/app/db.php';
+require_once BASE_PATH . '/app/helpers.php';
 
 $page_title = 'タスク詳細';
 
 $id = (int)($_GET['id'] ?? 0);
 
 if ($id <= 0) {
-    header('Location: ' . BASE_URL . '/tasks/index.php');
+    header('Location: ' . url('/tasks/index.php'));
     exit;
 }
 
@@ -41,7 +42,7 @@ if (!$task) {
     <p>指定されたタスクは存在しないか、削除されています。</p>
 
     <p>
-        <a href="<?= BASE_URL ?>/tasks/index.php">← タスク一覧へ戻る</a>
+        <a href="<?= url('/tasks/index.php') ?>">← タスク一覧へ戻る</a>
     </p>
 
     <?php
@@ -55,33 +56,33 @@ require_once BASE_PATH . '/app/views/header.php';
 <h2>タスク詳細</h2>
 
 <p>
-    <a href="<?= BASE_URL ?>/tasks/index.php">← タスク一覧へ戻る</a>
+    <a href="<?= url('/tasks/index.php') ?>">← タスク一覧へ戻る</a>
 </p>
 
 <div class="table-wrap">
     <table class="table is-small">
         <tr>
             <th>ID</th>
-            <td><?= htmlspecialchars($task['id'], ENT_QUOTES, 'UTF-8') ?></td>
+            <td><?= (int)$task['id'] ?></td>
         </tr>
 
         <tr>
             <th>タスク名</th>
-            <td><?= htmlspecialchars($task['title'], ENT_QUOTES, 'UTF-8') ?></td>
+            <td><?= h($task['title']) ?></td>
         </tr>
 
         <tr>
             <th>顧客</th>
             <td>
                 <?php if (!empty($task['customer_name']) && !empty($task['customer_id'])): ?>
-                    <a href="<?= BASE_URL ?>/customers/show.php?id=<?= (int)$task['customer_id'] ?>">
-                        <?= htmlspecialchars($task['customer_name'], ENT_QUOTES, 'UTF-8') ?>
+                    <a href="<?= url('/customers/show.php?id=' . (int)$task['customer_id']) ?>">
+                        <?= h($task['customer_name']) ?>
                     </a>
 
                     <?php if (!empty($task['customer_company'])): ?>
                         <br>
                         <small>
-                            <?= htmlspecialchars($task['customer_company'], ENT_QUOTES, 'UTF-8') ?>
+                            <?= h($task['customer_company']) ?>
                         </small>
                     <?php endif; ?>
                 <?php else: ?>
@@ -94,8 +95,8 @@ require_once BASE_PATH . '/app/views/header.php';
             <th>案件</th>
             <td>
                 <?php if (!empty($task['deal_title']) && !empty($task['deal_id'])): ?>
-                    <a href="<?= BASE_URL ?>/deals/show.php?id=<?= (int)$task['deal_id'] ?>">
-                        <?= htmlspecialchars($task['deal_title'], ENT_QUOTES, 'UTF-8') ?>
+                    <a href="<?= url('/deals/show.php?id=' . (int)$task['deal_id']) ?>">
+                        <?= h($task['deal_title']) ?>
                     </a>
                 <?php else: ?>
                     -
@@ -105,40 +106,40 @@ require_once BASE_PATH . '/app/views/header.php';
 
         <tr>
             <th>期限</th>
-            <td><?= htmlspecialchars($task['due_date'] ?: '-', ENT_QUOTES, 'UTF-8') ?></td>
+            <td><?= h($task['due_date'] ?: '-') ?></td>
         </tr>
 
         <tr>
             <th>ステータス</th>
             <td>
-                <?= htmlspecialchars($status_labels[$task['status']] ?? $task['status'], ENT_QUOTES, 'UTF-8') ?>
+                <?= h($status_labels[$task['status'] ?? ''] ?? ($task['status'] ?? '-')) ?>
             </td>
         </tr>
 
         <tr>
             <th>説明</th>
             <td>
-                <?= nl2br(htmlspecialchars($task['description'] ?: '-', ENT_QUOTES, 'UTF-8')) ?>
+                <?= nl2br(h($task['description'] ?: '-')) ?>
             </td>
         </tr>
 
         <tr>
             <th>登録日</th>
-            <td><?= htmlspecialchars($task['created_at'], ENT_QUOTES, 'UTF-8') ?></td>
+            <td><?= h($task['created_at']) ?></td>
         </tr>
 
         <tr>
             <th>更新日</th>
-            <td><?= htmlspecialchars($task['updated_at'], ENT_QUOTES, 'UTF-8') ?></td>
+            <td><?= h($task['updated_at']) ?></td>
         </tr>
     </table>
 </div>
 
 <div class="action-buttons">
-    <a href="<?= BASE_URL ?>/tasks/edit.php?id=<?= (int)$task['id'] ?>">編集する</a>
+    <a href="<?= url('/tasks/edit.php?id=' . (int)$task['id']) ?>">編集する</a>
     |
 
-    <form class="delete-form" method="post" action="<?= BASE_URL ?>/tasks/delete.php" style="display:inline;">
+    <form class="delete-form" method="post" action="<?= url('/tasks/delete.php') ?>">
         <input type="hidden" name="id" value="<?= (int)$task['id'] ?>">
         <button type="submit" onclick="return confirm('このタスクを削除します。本当に削除しますか？');">
             削除

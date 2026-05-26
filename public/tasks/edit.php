@@ -9,7 +9,7 @@ $page_title = 'タスク編集';
 $id = (int)($_GET['id'] ?? 0);
 
 if ($id <= 0) {
-    header('Location: ' . BASE_URL . '/tasks/index.php');
+    header('Location: ' . url('/tasks/index.php'));
     exit;
 }
 
@@ -37,7 +37,7 @@ if (!$task) {
     <p>指定されたタスクは存在しないか、削除されています。</p>
 
     <p>
-        <a href="<?= BASE_URL ?>/tasks/index.php">← タスク一覧へ戻る</a>
+        <a href="<?= url('/tasks/index.php') ?>">← タスク一覧へ戻る</a>
     </p>
 
     <?php
@@ -122,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $_SESSION['flash'] = 'タスク情報を更新しました。';
 
-                header('Location: ' . BASE_URL . '/tasks/show.php?id=' . $id);
+                header('Location: ' . url('/tasks/show.php?id=' . $id));
                 exit;
             }
         } catch (PDOException $e) {
@@ -146,23 +146,23 @@ require_once BASE_PATH . '/app/views/header.php';
 <h2>タスク編集</h2>
 
 <p>
-    <a href="<?= BASE_URL ?>/tasks/show.php?id=<?= (int)$task['id'] ?>">← タスク詳細へ戻る</a>
+    <a href="<?= url('/tasks/show.php?id=' . (int)$task['id']) ?>">← タスク詳細へ戻る</a>
 </p>
 
 <?php if ($error): ?>
     <p style="color: red;">
-        <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
+        <?= h($error) ?>
     </p>
 <?php endif; ?>
 
 <?php if (empty($deals)): ?>
     <p>案件が登録されていません。先に案件を登録してください。</p>
     <p>
-        <a href="<?= BASE_URL ?>/deals/create.php">＋ 案件登録へ</a>
+        <a href="<?= url('/deals/create.php') ?>">＋ 案件登録へ</a>
     </p>
 <?php else: ?>
 
-<form method="post" action="<?= BASE_URL ?>/tasks/edit.php?id=<?= (int)$task['id'] ?>">
+<form method="post" action="<?= url('/tasks/edit.php?id=' . (int)$task['id']) ?>">
     <div>
         <label>
             案件 <span style="color: red;">*</span><br>
@@ -174,11 +174,11 @@ require_once BASE_PATH . '/app/views/header.php';
                         value="<?= (int)$deal['id'] ?>"
                         <?= ((int)$form['deal_id'] === (int)$deal['id']) ? 'selected' : '' ?>
                     >
-                        <?= htmlspecialchars($deal['title'], ENT_QUOTES, 'UTF-8') ?>
+                        <?= h($deal['title']) ?>
                         <?php if (!empty($deal['customer_name'])): ?>
-                            （<?= htmlspecialchars($deal['customer_name'], ENT_QUOTES, 'UTF-8') ?>
+                            （<?= h($deal['customer_name']) ?>
                             <?php if (!empty($deal['customer_company'])): ?>
-                                / <?= htmlspecialchars($deal['customer_company'], ENT_QUOTES, 'UTF-8') ?>
+                                / <?= h($deal['customer_company']) ?>
                             <?php endif; ?>
                             ）
                         <?php endif; ?>
@@ -196,7 +196,7 @@ require_once BASE_PATH . '/app/views/header.php';
             <input
                 type="text"
                 name="title"
-                value="<?= htmlspecialchars($form['title'], ENT_QUOTES, 'UTF-8') ?>"
+                value="<?= h($form['title']) ?>"
                 required
             >
         </label>
@@ -207,7 +207,7 @@ require_once BASE_PATH . '/app/views/header.php';
     <div>
         <label>
             説明<br>
-            <textarea name="description" rows="5"><?= htmlspecialchars($form['description'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
+            <textarea name="description" rows="5"><?= h($form['description'] ?? '') ?></textarea>
         </label>
     </div>
 
@@ -219,7 +219,7 @@ require_once BASE_PATH . '/app/views/header.php';
             <input
                 type="date"
                 name="due_date"
-                value="<?= htmlspecialchars($form['due_date'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                value="<?= h($form['due_date'] ?? '') ?>"
             >
         </label>
     </div>
@@ -232,10 +232,10 @@ require_once BASE_PATH . '/app/views/header.php';
             <select name="status">
                 <?php foreach ($status_labels as $key => $label): ?>
                     <option
-                        value="<?= htmlspecialchars($key, ENT_QUOTES, 'UTF-8') ?>"
+                        value="<?= h($key) ?>"
                         <?= ($form['status'] === $key) ? 'selected' : '' ?>
                     >
-                        <?= htmlspecialchars($label, ENT_QUOTES, 'UTF-8') ?>
+                        <?= h($label) ?>
                     </option>
                 <?php endforeach; ?>
             </select>

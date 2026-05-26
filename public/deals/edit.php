@@ -9,7 +9,7 @@ $page_title = '案件編集';
 $id = (int)($_GET['id'] ?? 0);
 
 if ($id <= 0) {
-    header('Location: ' . BASE_URL . '/deals/index.php');
+    header('Location: ' . url('/deals/index.php'));
     exit;
 }
 
@@ -40,7 +40,7 @@ if (!$deal) {
     <p>指定された案件情報は存在しないか、削除されています。</p>
 
     <p>
-        <a href="<?= BASE_URL ?>/deals/index.php">← 案件一覧へ戻る</a>
+        <a href="<?= url('/deals/index.php') ?>">← 案件一覧へ戻る</a>
     </p>
 
     <?php
@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $_SESSION['flash'] = '案件情報を更新しました。';
 
-            header('Location: ' . BASE_URL . '/deals/show.php?id=' . $id);
+            header('Location: ' . url('/deals/show.php?id=' . (int)$id));
             exit;
         } catch (PDOException $e) {
             $error = '案件情報の更新に失敗しました。';
@@ -133,23 +133,23 @@ require_once BASE_PATH . '/app/views/header.php';
 <h2>案件編集</h2>
 
 <p>
-    <a href="<?= BASE_URL ?>/deals/show.php?id=<?= (int)$deal['id'] ?>">← 案件詳細へ戻る</a>
+    <a href="<?= url('/deals/show.php?id=' . (int)$deal['id']) ?>">← 案件詳細へ戻る</a>
 </p>
 
 <?php if ($error): ?>
     <p style="color: red;">
-        <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
+        <?= h($error) ?>
     </p>
 <?php endif; ?>
 
 <?php if (empty($customers)): ?>
     <p>顧客が登録されていません。先に顧客を登録してください。</p>
     <p>
-        <a href="<?= BASE_URL ?>/customers/create.php">＋ 顧客登録へ</a>
+        <a href="<?= url('/customers/create.php') ?>">＋ 顧客登録へ</a>
     </p>
 <?php else: ?>
 
-<form method="post" action="<?= BASE_URL ?>/deals/edit.php?id=<?= (int)$deal['id'] ?>">
+<form method="post" action="<?= url('/deals/edit.php?id=' . (int)$deal['id']) ?>">
     <div>
         <label>
             顧客 <span style="color: red;">*</span><br>
@@ -161,9 +161,9 @@ require_once BASE_PATH . '/app/views/header.php';
                         value="<?= (int)$customer['id'] ?>"
                         <?= ((int)$form['customer_id'] === (int)$customer['id']) ? 'selected' : '' ?>
                     >
-                        <?= htmlspecialchars($customer['name'], ENT_QUOTES, 'UTF-8') ?>
+                        <?= h($customer['name']) ?>
                         <?php if (!empty($customer['company_name'])): ?>
-                            （<?= htmlspecialchars($customer['company_name'], ENT_QUOTES, 'UTF-8') ?>）
+                            （<?= h($customer['company_name']) ?>）
                         <?php endif; ?>
                     </option>
                 <?php endforeach; ?>
@@ -179,7 +179,7 @@ require_once BASE_PATH . '/app/views/header.php';
             <input
                 type="text"
                 name="title"
-                value="<?= htmlspecialchars($form['title'], ENT_QUOTES, 'UTF-8') ?>"
+                value="<?= h($form['title']) ?>"
                 required
             >
         </label>
@@ -190,7 +190,7 @@ require_once BASE_PATH . '/app/views/header.php';
     <div>
         <label>
             説明<br>
-            <textarea name="description" rows="5"><?= htmlspecialchars($form['description'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
+            <textarea name="description" rows="5"><?= h($form['description'] ?? '') ?></textarea>
         </label>
     </div>
 
@@ -202,10 +202,10 @@ require_once BASE_PATH . '/app/views/header.php';
             <select name="status">
                 <?php foreach ($status_labels as $key => $label): ?>
                     <option
-                        value="<?= htmlspecialchars($key, ENT_QUOTES, 'UTF-8') ?>"
+                        value="<?= h($key) ?>"
                         <?= ($form['status'] === $key) ? 'selected' : '' ?>
                     >
-                        <?= htmlspecialchars($label, ENT_QUOTES, 'UTF-8') ?>
+                        <?= h($label) ?>
                     </option>
                 <?php endforeach; ?>
             </select>
@@ -222,7 +222,7 @@ require_once BASE_PATH . '/app/views/header.php';
                 name="amount"
                 min="0"
                 step="1"
-                value="<?= htmlspecialchars((string)$form['amount'], ENT_QUOTES, 'UTF-8') ?>"
+                value="<?= h((string)$form['amount']) ?>"
                 placeholder="例：50000"
             >
         </label>
@@ -236,7 +236,7 @@ require_once BASE_PATH . '/app/views/header.php';
             <input
                 type="date"
                 name="due_date"
-                value="<?= htmlspecialchars($form['due_date'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                value="<?= h($form['due_date'] ?? '') ?>"
             >
         </label>
     </div>
