@@ -9,7 +9,7 @@ $page_title = 'ユーザー編集';
 $id = (int)($_GET['id'] ?? 0);
 
 if ($id <= 0) {
-    header('Location: ' . BASE_URL . '/admin/users.php');
+    header('Location: ' . url('/admin/users.php'));
     exit;
 }
 
@@ -29,7 +29,7 @@ if (!$user) {
     <p>指定されたユーザーは存在しないか、削除されています。</p>
 
     <p>
-        <a href="<?= BASE_URL ?>/admin/users.php">← ユーザー管理へ戻る</a>
+        <a href="<?= url('/admin/users.php') ?>">← ユーザー管理へ戻る</a>
     </p>
 
     <?php
@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['role'] = $role;
                 }
 
-                header('Location: ' . BASE_URL . '/admin/users.php');
+                header('Location: ' . url('/admin/users.php'));
                 exit;
             }
         } catch (PDOException $e) {
@@ -144,23 +144,23 @@ require_once BASE_PATH . '/app/views/header.php';
 <h2>ユーザー編集</h2>
 
 <p>
-    <a href="<?= BASE_URL ?>/admin/users.php">← ユーザー管理へ戻る</a>
+    <a href="<?= url('/admin/users.php') ?>">← ユーザー管理へ戻る</a>
 </p>
 
 <?php if ($error): ?>
     <p style="color: red;">
-        <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
+        <?= h($error) ?>
     </p>
 <?php endif; ?>
 
-<form method="post" action="<?= BASE_URL ?>/admin/edit_user.php?id=<?= (int)$user['id'] ?>">
+<form method="post" action="<?= url('/admin/edit_user.php?id=' . (int)$user['id']) ?>">
     <div>
         <label>
             ユーザー名 <span style="color: red;">*</span><br>
             <input
                 type="text"
                 name="username"
-                value="<?= htmlspecialchars($form['username'], ENT_QUOTES, 'UTF-8') ?>"
+                value="<?= h($form['username']) ?>"
                 required
             >
         </label>
@@ -174,7 +174,7 @@ require_once BASE_PATH . '/app/views/header.php';
             <input
                 type="email"
                 name="email"
-                value="<?= htmlspecialchars($form['email'], ENT_QUOTES, 'UTF-8') ?>"
+                value="<?= h($form['email']) ?>"
                 required
             >
         </label>
@@ -202,10 +202,10 @@ require_once BASE_PATH . '/app/views/header.php';
         <label>
             権限<br>
             <select name="role">
-                <option value="user" <?= $form['role'] === 'user' ? 'selected' : '' ?>>
+                <option value="user" <?= ($form['role'] ?? '') === 'user' ? 'selected' : '' ?>>
                     一般ユーザー
                 </option>
-                <option value="admin" <?= $form['role'] === 'admin' ? 'selected' : '' ?>>
+                <option value="admin" <?= ($form['role'] ?? '') === 'admin' ? 'selected' : '' ?>>
                     管理者
                 </option>
             </select>

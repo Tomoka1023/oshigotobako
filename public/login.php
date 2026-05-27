@@ -3,9 +3,10 @@ require_once __DIR__ . '/../app/config.php';
 session_start();
 
 require_once BASE_PATH . '/app/db.php';
+require_once BASE_PATH . '/app/helpers.php';
 
 if (isset($_SESSION['user_id'])) {
-    header('Location: ' . BASE_URL . '/dashboard.php');
+    header('Location: ' . url('/dashboard.php'));
     exit;
 }
 
@@ -23,11 +24,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($user && password_verify($password, $user['password'])) {
         session_regenerate_id(true);
 
-        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['user_id'] = (int)$user['id'];
         $_SESSION['username'] = $user['username'];
         $_SESSION['role'] = $user['role'];
 
-        header('Location: ' . BASE_URL . '/dashboard.php');
+        header('Location: ' . url('/dashboard.php'));
         exit;
     } else {
         $error = 'ユーザー名またはパスワードが間違っています。';
@@ -42,11 +43,11 @@ require_once BASE_PATH . '/app/views/header.php';
 
 <?php if ($error): ?>
     <p style="color: red;">
-        <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
+        <?= h($error) ?>
     </p>
 <?php endif; ?>
 
-<form method="post" action="<?= BASE_URL ?>/login.php" class="login">
+<form method="post" action="<?= url('/login.php') ?>" class="login">
     <label>
         ユーザー名:
         <input type="text" name="username" required>

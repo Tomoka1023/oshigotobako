@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $memo
             ]);
             
-            $customer_id = $pdo->lastInsertId();
+            $customer_id = (int)$pdo->lastInsertId();
             
             add_log(
                 $pdo,
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             $_SESSION['flash'] = '顧客を登録しました。';
             
-            header('Location: ' . BASE_URL . '/customers/index.php');
+            header('Location: ' . url('/customers/index.php'));
             exit;
         } catch (PDOException $e) {
             $error = '顧客の登録に失敗しました。';
@@ -71,23 +71,23 @@ require_once BASE_PATH . '/app/views/header.php';
 <h2>顧客登録</h2>
 
 <p>
-    <a href="<?= BASE_URL ?>/customers/index.php">← 顧客一覧へ戻る</a>
+    <a href="<?= url('/customers/index.php') ?>">← 顧客一覧へ戻る</a>
 </p>
 
 <?php if ($error): ?>
     <p style="color: red;">
-        <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
+        <?= h($error) ?>
     </p>
 <?php endif; ?>
 
-<form method="post" action="<?= BASE_URL ?>/customers/create.php">
+<form method="post" action="<?= url('/customers/create.php') ?>">
     <div>
         <label>
             顧客名 <span style="color: red;">*</span><br>
             <input
                 type="text"
                 name="name"
-                value="<?= htmlspecialchars($_POST['name'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                value="<?= h($_POST['name'] ?? '') ?>"
                 required
             >
         </label>
@@ -101,7 +101,7 @@ require_once BASE_PATH . '/app/views/header.php';
             <input
                 type="text"
                 name="company_name"
-                value="<?= htmlspecialchars($_POST['company_name'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                value="<?= h($_POST['company_name'] ?? '') ?>"
             >
         </label>
     </div>
@@ -114,7 +114,7 @@ require_once BASE_PATH . '/app/views/header.php';
             <input
                 type="email"
                 name="email"
-                value="<?= htmlspecialchars($_POST['email'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                value="<?= h($_POST['email'] ?? '') ?>"
             >
         </label>
     </div>
@@ -127,7 +127,7 @@ require_once BASE_PATH . '/app/views/header.php';
             <input
                 type="text"
                 name="phone"
-                value="<?= htmlspecialchars($_POST['phone'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                value="<?= h($_POST['phone'] ?? '') ?>"
             >
         </label>
     </div>
@@ -137,7 +137,7 @@ require_once BASE_PATH . '/app/views/header.php';
     <div>
         <label>
             住所<br>
-            <textarea name="address" rows="3"><?= htmlspecialchars($_POST['address'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
+            <textarea name="address" rows="3"><?= h($_POST['address'] ?? '') ?></textarea>
         </label>
     </div>
 
@@ -146,7 +146,7 @@ require_once BASE_PATH . '/app/views/header.php';
     <div>
         <label>
             メモ<br>
-            <textarea name="memo" rows="5"><?= htmlspecialchars($_POST['memo'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
+            <textarea name="memo" rows="5"><?= h($_POST['memo'] ?? '') ?></textarea>
         </label>
     </div>
 

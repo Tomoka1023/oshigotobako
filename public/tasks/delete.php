@@ -5,14 +5,14 @@ require_once BASE_PATH . '/app/db.php';
 require_once BASE_PATH . '/app/helpers.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ' . BASE_URL . '/tasks/index.php');
+    header('Location: ' . url('/tasks/index.php'));
     exit;
 }
 
 $id = (int)($_POST['id'] ?? 0);
 
 if ($id <= 0) {
-    header('Location: ' . BASE_URL . '/tasks/index.php');
+    header('Location: ' . url('/tasks/index.php'));
     exit;
 }
 
@@ -27,7 +27,7 @@ try {
 
     if (!$task) {
         $_SESSION['flash'] = '削除対象のタスクが見つかりませんでした。';
-        header('Location: ' . BASE_URL . '/tasks/index.php');
+        header('Location: ' . url('/tasks/index.php'));
         exit;
     }
 
@@ -54,5 +54,5 @@ try {
     $_SESSION['flash'] = 'タスクの削除に失敗しました。';
 }
 
-header('Location: ' . BASE_URL . '/tasks/index.php');
+header('Location: ' . url('/tasks/index.php'));
 exit;

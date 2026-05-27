@@ -7,7 +7,6 @@ require_once BASE_PATH . '/app/helpers.php';
 $page_title = 'ユーザー追加';
 
 $error = '';
-$success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username'] ?? '');
@@ -55,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $role
                 ]);
 
-                $user_id = $pdo->lastInsertId();
+                $user_id = (int)$pdo->lastInsertId();
 
                 add_log(
                     $pdo,
@@ -68,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $_SESSION['flash'] = 'ユーザーを登録しました。';
 
-                header('Location: ' . BASE_URL . '/admin/users.php');
+                header('Location: ' . url('/admin/users.php'));
                 exit;
             }
         } catch (PDOException $e) {
@@ -83,23 +82,23 @@ require_once BASE_PATH . '/app/views/header.php';
 <h2>ユーザー追加</h2>
 
 <p>
-    <a href="<?= BASE_URL ?>/admin/users.php">← ユーザー一覧へ戻る</a>
+    <a href="<?= url('/admin/users.php') ?>">← ユーザー一覧へ戻る</a>
 </p>
 
 <?php if ($error): ?>
     <p style="color: red;">
-        <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
+        <?= h($error) ?>
     </p>
 <?php endif; ?>
 
-<form method="post" action="<?= BASE_URL ?>/admin/create_user.php">
+<form method="post" action="<?= url('/admin/create_user.php') ?>">
     <div>
         <label>
             ユーザー名<br>
             <input
                 type="text"
                 name="username"
-                value="<?= htmlspecialchars($_POST['username'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                value="<?= h($_POST['username'] ?? '') ?>"
                 required
             >
         </label>
@@ -113,7 +112,7 @@ require_once BASE_PATH . '/app/views/header.php';
             <input
                 type="email"
                 name="email"
-                value="<?= htmlspecialchars($_POST['email'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                value="<?= h($_POST['email'] ?? '') ?>"
                 required
             >
         </label>

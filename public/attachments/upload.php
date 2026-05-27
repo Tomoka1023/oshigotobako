@@ -5,7 +5,7 @@ require_once BASE_PATH . '/app/db.php';
 require_once BASE_PATH . '/app/helpers.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ' . BASE_URL . '/dashboard.php');
+    header('Location: ' . url('/dashboard.php'));
     exit;
 }
 
@@ -16,13 +16,13 @@ $allowed_targets = ['deal'];
 
 if (!in_array($target_type, $allowed_targets, true) || $target_id <= 0) {
     $_SESSION['flash'] = '添付先の情報が正しくありません。';
-    header('Location: ' . BASE_URL . '/deals/index.php');
+    header('Location: ' . url('/deals/index.php'));
     exit;
 }
 
 if (!isset($_FILES['attachment']) || $_FILES['attachment']['error'] !== UPLOAD_ERR_OK) {
     $_SESSION['flash'] = 'ファイルのアップロードに失敗しました。';
-    header('Location: ' . BASE_URL . '/deals/show.php?id=' . $target_id);
+    header('Location: ' . url('/deals/show.php?id=' . $target_id));
     exit;
 }
 
@@ -32,7 +32,7 @@ $max_size = 5 * 1024 * 1024; // 5MB
 
 if ($file['size'] > $max_size) {
     $_SESSION['flash'] = 'ファイルサイズは5MB以内にしてください。';
-    header('Location: ' . BASE_URL . '/deals/show.php?id=' . $target_id);
+    header('Location: ' . url('/deals/show.php?id=' . $target_id));
     exit;
 }
 
@@ -57,7 +57,7 @@ $allowed_extensions = [
 
 if (!in_array($extension, $allowed_extensions, true)) {
     $_SESSION['flash'] = 'この種類のファイルはアップロードできません。';
-    header('Location: ' . BASE_URL . '/deals/show.php?id=' . $target_id);
+    header('Location: ' . url('/deals/show.php?id=' . $target_id));
     exit;
 }
 
@@ -76,7 +76,7 @@ $save_path = $upload_dir . $saved_name;
 
 if (!move_uploaded_file($tmp_name, $save_path)) {
     $_SESSION['flash'] = 'ファイルの保存に失敗しました。';
-    header('Location: ' . BASE_URL . '/deals/show.php?id=' . $target_id);
+    header('Location: ' . url('/deals/show.php?id=' . $target_id));
     exit;
 }
 
@@ -121,5 +121,5 @@ add_log(
 
 $_SESSION['flash'] = 'ファイルをアップロードしました。';
 
-header('Location: ' . BASE_URL . '/deals/show.php?id=' . $target_id);
+header('Location: ' . url('/deals/show.php?id=' . $target_id));
 exit;

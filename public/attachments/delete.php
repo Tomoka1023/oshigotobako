@@ -5,7 +5,7 @@ require_once BASE_PATH . '/app/db.php';
 require_once BASE_PATH . '/app/helpers.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ' . BASE_URL . '/deals/index.php');
+    header('Location: ' . url('/deals/index.php'));
     exit;
 }
 
@@ -13,7 +13,7 @@ $id = (int)($_POST['id'] ?? 0);
 
 if ($id <= 0) {
     $_SESSION['flash'] = 'ファイル情報が正しくありません。';
-    header('Location: ' . BASE_URL . '/deals/index.php');
+    header('Location: ' . url('/deals/index.php'));
     exit;
 }
 
@@ -28,7 +28,7 @@ $attachment = $stmt->fetch();
 
 if (!$attachment) {
     $_SESSION['flash'] = '削除対象のファイルが見つかりませんでした。';
-    header('Location: ' . BASE_URL . '/deals/index.php');
+    header('Location: ' . url('/deals/index.php'));
     exit;
 }
 
@@ -40,7 +40,7 @@ $file_path = BASE_PATH . '/' . $attachment['file_path'];
 // 今回は案件添付だけ対応
 if ($target_type !== 'deal') {
     $_SESSION['flash'] = 'この添付ファイルは削除できません。';
-    header('Location: ' . BASE_URL . '/deals/index.php');
+    header('Location: ' . url('/deals/index.php'));
     exit;
 }
 
@@ -72,5 +72,5 @@ try {
     $_SESSION['flash'] = '添付ファイルの削除に失敗しました。';
 }
 
-header('Location: ' . BASE_URL . '/deals/show.php?id=' . $target_id);
+header('Location: ' . url('/deals/show.php?id=' . $target_id));
 exit;

@@ -9,7 +9,7 @@ $page_title = '顧客編集';
 $id = (int)($_GET['id'] ?? 0);
 
 if ($id <= 0) {
-    header('Location: ' . BASE_URL . '/customers/index.php');
+    header('Location: ' . url('/customers/index.php'));
     exit;
 }
 
@@ -31,7 +31,7 @@ if (!$customer) {
     <p>指定された顧客情報は存在しないか、削除されています。</p>
 
     <p>
-        <a href="<?= BASE_URL ?>/customers/index.php">← 顧客一覧へ戻る</a>
+        <a href="<?= url('/customers/index.php') ?>">← 顧客一覧へ戻る</a>
     </p>
 
     <?php
@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $_SESSION['flash'] = '顧客情報を更新しました。';
 
-            header('Location: ' . BASE_URL . '/customers/show.php?id=' . $id);
+            header('Location: ' . url('/customers/show.php?id=' . (int)$id));
             exit;
         } catch (PDOException $e) {
             $error = '顧客情報の更新に失敗しました。';
@@ -112,23 +112,23 @@ require_once BASE_PATH . '/app/views/header.php';
 <h2>顧客編集</h2>
 
 <p>
-    <a href="<?= BASE_URL ?>/customers/show.php?id=<?= (int)$customer['id'] ?>">← 顧客詳細へ戻る</a>
+    <a href="<?= url('/customers/show.php?id=' . (int)$customer['id']) ?>">← 顧客詳細へ戻る</a>
 </p>
 
 <?php if ($error): ?>
     <p style="color: red;">
-        <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
+        <?= h($error) ?>
     </p>
 <?php endif; ?>
 
-<form method="post" action="<?= BASE_URL ?>/customers/edit.php?id=<?= (int)$customer['id'] ?>">
+<form method="post" action="<?= url('/customers/edit.php?id=' . (int)$customer['id']) ?>">
     <div>
         <label>
             顧客名 <span style="color: red;">*</span><br>
             <input
                 type="text"
                 name="name"
-                value="<?= htmlspecialchars($form['name'], ENT_QUOTES, 'UTF-8') ?>"
+                value="<?= h($form['name']) ?>"
                 required
             >
         </label>
@@ -142,7 +142,7 @@ require_once BASE_PATH . '/app/views/header.php';
             <input
                 type="text"
                 name="company_name"
-                value="<?= htmlspecialchars($form['company_name'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                value="<?= h($form['company_name'] ?? '') ?>"
             >
         </label>
     </div>
@@ -155,7 +155,7 @@ require_once BASE_PATH . '/app/views/header.php';
             <input
                 type="email"
                 name="email"
-                value="<?= htmlspecialchars($form['email'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                value="<?= h($form['email'] ?? '') ?>"
             >
         </label>
     </div>
@@ -168,7 +168,7 @@ require_once BASE_PATH . '/app/views/header.php';
             <input
                 type="text"
                 name="phone"
-                value="<?= htmlspecialchars($form['phone'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                value="<?= h($form['phone'] ?? '') ?>"
             >
         </label>
     </div>
@@ -178,7 +178,7 @@ require_once BASE_PATH . '/app/views/header.php';
     <div>
         <label>
             住所<br>
-            <textarea name="address" rows="3"><?= htmlspecialchars($form['address'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
+            <textarea name="address" rows="3"><?= h($form['address'] ?? '') ?></textarea>
         </label>
     </div>
 
@@ -187,7 +187,7 @@ require_once BASE_PATH . '/app/views/header.php';
     <div>
         <label>
             メモ<br>
-            <textarea name="memo" rows="5"><?= htmlspecialchars($form['memo'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
+            <textarea name="memo" rows="5"><?= h($form['memo'] ?? '') ?></textarea>
         </label>
     </div>
 

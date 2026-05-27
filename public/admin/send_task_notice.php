@@ -6,7 +6,7 @@ require_once BASE_PATH . '/app/helpers.php';
 require_once BASE_PATH . '/app/send_mail.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ' . BASE_URL . '/admin/index.php');
+    header('Location: ' . url('/admin/index.php'));
     exit;
 }
 
@@ -22,7 +22,7 @@ $admin = $stmt->fetch();
 
 if (!$admin || empty($admin['email'])) {
     $_SESSION['flash'] = '管理者のメールアドレスが見つかりませんでした。';
-    header('Location: ' . BASE_URL . '/admin/index.php');
+    header('Location: ' . url('/admin/index.php'));
     exit;
 }
 
@@ -47,7 +47,7 @@ $tasks = $stmt->fetchAll();
 
 if (empty($tasks)) {
     $_SESSION['flash'] = '期限が近い未完了タスクはありません。';
-    header('Location: ' . BASE_URL . '/admin/index.php');
+    header('Location: ' . url('/admin/index.php'));
     exit;
 }
 
@@ -85,5 +85,5 @@ if ($result) {
     $_SESSION['flash'] = '通知メールの送信に失敗しました。' . $error_message;
 }
 
-header('Location: ' . BASE_URL . '/admin/index.php');
+header('Location: ' . url('/admin/index.php'));
 exit;

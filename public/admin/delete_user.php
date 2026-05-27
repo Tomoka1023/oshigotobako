@@ -5,21 +5,21 @@ require_once BASE_PATH . '/app/db.php';
 require_once BASE_PATH . '/app/helpers.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ' . BASE_URL . '/admin/users.php');
+    header('Location: ' . url('/admin/users.php'));
     exit;
 }
 
 $id = (int)($_POST['id'] ?? 0);
 
 if ($id <= 0) {
-    header('Location: ' . BASE_URL . '/admin/users.php');
+    header('Location: ' . url('/admin/users.php'));
     exit;
 }
 
 // 自分自身は削除できないようにする
 if ($id === (int)$_SESSION['user_id']) {
     $_SESSION['flash'] = '自分自身は削除できません。';
-    header('Location: ' . BASE_URL . '/admin/users.php');
+    header('Location: ' . url('/admin/users.php'));
     exit;
 }
 
@@ -34,7 +34,7 @@ try {
 
     if (!$user) {
         $_SESSION['flash'] = '削除対象のユーザーが見つかりませんでした。';
-        header('Location: ' . BASE_URL . '/admin/users.php');
+        header('Location: ' . url('/admin/users.php'));
         exit;
     }
 
@@ -61,5 +61,5 @@ try {
     $_SESSION['flash'] = 'ユーザーの削除に失敗しました。';
 }
 
-header('Location: ' . BASE_URL . '/admin/users.php');
+header('Location: ' . url('/admin/users.php'));
 exit;

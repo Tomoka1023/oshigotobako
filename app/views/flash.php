@@ -1,11 +1,13 @@
 <?php
+require_once BASE_PATH . '/app/helpers.php';
+
 if (!empty($_SESSION['flash'])):
     $flash = $_SESSION['flash'];
     unset($_SESSION['flash']);
 ?>
 
     <div class="flash-message">
-        <?= htmlspecialchars($flash, ENT_QUOTES, 'UTF-8') ?>
+        <?= h($flash) ?>
     </div>
 
 <?php endif; ?>

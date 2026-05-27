@@ -8,7 +8,7 @@ $id = (int)($_GET['id'] ?? 0);
 
 if ($id <= 0) {
     $_SESSION['flash'] = 'ファイル情報が正しくありません。';
-    header('Location: ' . BASE_URL . '/deals/index.php');
+    header('Location: ' . url('/deals/index.php'));
     exit;
 }
 
@@ -23,7 +23,7 @@ $attachment = $stmt->fetch();
 
 if (!$attachment) {
     $_SESSION['flash'] = '指定されたファイルが見つかりません。';
-    header('Location: ' . BASE_URL . '/deals/index.php');
+    header('Location: ' . url('/deals/index.php'));
     exit;
 }
 
@@ -31,7 +31,7 @@ $file_path = BASE_PATH . '/' . $attachment['file_path'];
 
 if (!is_file($file_path)) {
     $_SESSION['flash'] = 'ファイル本体が見つかりません。';
-    header('Location: ' . BASE_URL . '/deals/show.php?id=' . (int)$attachment['target_id']);
+    header('Location: ' . url('/deals/show.php?id=' . (int)$attachment['target_id']));
     exit;
 }
 
