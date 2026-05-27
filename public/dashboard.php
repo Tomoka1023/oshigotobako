@@ -66,13 +66,6 @@ $stmt = $pdo->query("
 $upcoming_tasks = $stmt->fetchAll();
 
 // 案件ステータス別件数
-$stmt = $pdo->query("
-    SELECT status, COUNT(*) AS count
-    FROM deals
-    GROUP BY status
-");
-$deal_status_rows = $stmt->fetchAll();
-
 $status_labels = [
     'new' => '新規',
     'proposal' => '提案中',
@@ -91,9 +84,26 @@ $deal_status_counts = [
     'lost' => 0,
 ];
 
+$stmt = $pdo->query("
+    SELECT status, COUNT(*) AS count
+    FROM deals
+    GROUP BY status
+");
+
+$deal_status_rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 foreach ($deal_status_rows as $row) {
     if (isset($deal_status_counts[$row['status']])) {
         $deal_status_counts[$row['status']] = (int)$row['count'];
+    }
+}
+
+// グラフ用：最大件数を取得
+$max_status_count = 0;
+
+foreach ($deal_status_counts as $count) {
+    if ((int)$count > $max_status_count) {
+        $max_status_count = (int)$count;
     }
 }
 
@@ -129,6 +139,55 @@ require_once BASE_PATH . '/app/views/header.php';
         <div class="dashboard-card">
             <p>期限切れタスク</p>
             <strong><?= (int)$overdue_task_count ?></strong>
+        </div>
+    </div>
+</section>
+
+<section class="dashboard-section">
+    <div class="section-header">
+        <h3>案件ステータス別</h3>
+        <p>現在の案件がどの段階にあるかを確認できます。</p>
+    </div>
+
+    <div class="stage-summary-grid">
+        <?php foreach ($deal_status_counts as $status => $count): ?>
+            <div class="stage-summary-card">
+                <div class="stage-name">
+                    <?= h($status_labels[$status] ?? $status) ?>
+                    <span><?= h($status) ?></span>
+                </div>
+
+                <div class="stage-count">
+                    <?= (int)$count ?><span>件</span>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+
+    <div class="stage-chart-card">
+        <h3>ステータス別 件数グラフ</h3>
+
+        <div class="stage-bar-list">
+            <?php foreach ($deal_status_counts as $status => $count): ?>
+                <?php
+                    $count = (int)$count;
+                    $width = $max_status_count > 0 ? ($count / $max_status_count) * 100 : 0;
+                ?>
+
+                <div class="stage-bar-row">
+                    <div class="stage-bar-label">
+                        <?= h($status_labels[$status] ?? $status) ?>
+                    </div>
+
+                    <div class="stage-bar-track">
+                        <div class="stage-bar-fill" style="width: <?= $width ?>%;"></div>
+                    </div>
+
+                    <div class="stage-bar-count">
+                        <?= $count ?>件
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
 </section>
@@ -213,29 +272,6 @@ require_once BASE_PATH . '/app/views/header.php';
             </table>
         </div>
     <?php endif; ?>
-</section>
-
-<section>
-    <h3>案件ステータス別集計</h3>
-
-    <div class="table-wrap">
-        <table class="table is-small">
-            <thead>
-                <tr>
-                    <th>ステータス</th>
-                    <th>件数</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($deal_status_counts as $key => $count): ?>
-                    <tr>
-                        <td><?= h($status_labels[$key] ?? $key) ?></td>
-                        <td><?= (int)$count ?>件</td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
 </section>
 
 <?php require_once BASE_PATH . '/app/views/footer.php'; ?>

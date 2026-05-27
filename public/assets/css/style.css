@@ -12,13 +12,13 @@ body {
     flex-direction: column;
     margin: 0;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Yu Gothic", "Meiryo", sans-serif;
-    background: #f8f4ef;
-    color: #3f342c;
+    background: #eff8f4;
+    color: #333;
     line-height: 1.7;
 }
 
 a {
-    color: #9b5f4d;
+    color: #56d27f;
     text-decoration: none;
     font-weight: 600;
 }
@@ -32,8 +32,8 @@ a:hover {
 ========================= */
 
 header {
-    background: #fffaf5;
-    border-bottom: 1px solid #eaded2;
+    background: #daf3de;
+    border-bottom: 1px solid #a1aaa3;
     box-shadow: 0 2px 10px rgba(80, 50, 30, 0.06);
     position: sticky;
     top: 0;
@@ -53,12 +53,13 @@ nav {
 nav a {
     padding: 8px 12px;
     border-radius: 999px;
-    color: #5c4638;
+    color: #333;
 }
 
 nav a:hover {
-    background: #f0dfd2;
+    background: #6e9e7a;
     text-decoration: none;
+    color: #fff;
 }
 
 /* =========================
@@ -75,7 +76,7 @@ main {
 h2 {
     margin: 0 0 20px;
     padding-left: 12px;
-    border-left: 6px solid #d9a48f;
+    border-left: 6px solid #84d199;
     font-size: 26px;
 }
 
@@ -109,7 +110,7 @@ input[type="submit"] {
     display: inline-block;
     border: none;
     border-radius: 999px;
-    background: #c98672;
+    background: #74c18e;
     color: #fff;
     padding: 9px 16px;
     font-weight: 700;
@@ -121,19 +122,19 @@ input[type="submit"] {
 button:hover,
 .btn:hover,
 input[type="submit"]:hover {
-    background: #b87360;
+    background: #398250;
     text-decoration: none;
     transform: translateY(-1px);
 }
 
 button.danger,
 .btn-danger {
-    background: #b85c5c;
+    background: #74c18e;
 }
 
 button.danger:hover,
 .btn-danger:hover {
-    background: #9f4848;
+    background: #398250;
 }
 
 /* =========================
@@ -146,7 +147,7 @@ form {
 
 form:not(.search-form):not(.delete-form) {
     background: #fff;
-    border: 1px solid #eaded2;
+    border: 1px solid #a1aaa3;
     border-radius: 18px;
     padding: 22px;
     box-shadow: 0 8px 20px rgba(80, 50, 30, 0.06);
@@ -154,7 +155,7 @@ form:not(.search-form):not(.delete-form) {
 
 label {
     font-weight: 700;
-    color: #5c4638;
+    color: #555;
 }
 
 input[type="text"],
@@ -168,9 +169,9 @@ textarea {
     max-width: 560px;
     padding: 10px 12px;
     margin-top: 6px;
-    border: 1px solid #d8c8bb;
+    border: 1px solid #a1aaa3;
     border-radius: 12px;
-    background: #fffdfb;
+    background: #f9fffb;
     font-size: 15px;
 }
 
@@ -211,8 +212,8 @@ textarea:focus {
     width: fit-content;
     max-width: 100%;
     margin: 20px 0 28px;
-    background: #fffaf5;
-    border: 1px solid #eaded2;
+    background: #f9fffb;
+    border: 1px solid #a1aaa3;
     border-radius: 18px;
     padding: 18px;
 }
@@ -260,10 +261,10 @@ table,
     min-width: 520px;
     border-collapse: collapse;
     background: #fff;
-    border-radius: 16px;
+    margin: 0;
+    box-shadow: none;
+    border-radius: 0;
     overflow: hidden;
-    box-shadow: 0 8px 20px rgba(80, 50, 30, 0.06);
-    margin: 16px 0 28px;
 }
 
 .table-wrap {
@@ -271,24 +272,39 @@ table,
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     margin: 16px 0 28px;
+    border: 1px solid #a1aaa3;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 8px 20px rgba(80, 50, 30, 0.06);
 }
 
 th,
 td {
-    border: 1px solid #eaded2;
     padding: 12px 14px;
     text-align: left;
     vertical-align: top;
+    border: none;
+    border-bottom: 1px solid #a1aaa3;
+    border-right: 1px solid #a1aaa3;
 }
 
 th {
-    background: #f3e5da;
-    color: #5c4638;
+    background: #daf3de;
+    color: #333;
     font-weight: 800;
 }
 
+th:last-child,
+td:last-child {
+    border-right: none;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
 tr:nth-child(even) td {
-    background: #fffaf6;
+    background: #f6fff9;
 }
 
 td small {
@@ -317,7 +333,7 @@ td small {
 }
 
 .dashboard-card {
-    border: 1px solid #eaded2;
+    border: 1px solid #a1aaa3;
     border-radius: 18px;
     padding: 18px;
     background: #fff;
@@ -326,13 +342,13 @@ td small {
 
 .dashboard-card p {
     margin: 0 0 8px;
-    color: #8a776b;
+    color: #555;
     font-weight: 700;
 }
 
 .dashboard-card strong {
     font-size: 32px;
-    color: #9b5f4d;
+    color: #56d27f;
 }
 
 /* =========================
@@ -347,7 +363,7 @@ ul {
 
 section ul {
     background: #fff;
-    border: 1px solid #eaded2;
+    border: 1px solid #a1aaa3;
     border-radius: 18px;
     padding: 18px 18px 18px 36px;
     box-shadow: 0 8px 20px rgba(80, 50, 30, 0.05);
@@ -496,4 +512,130 @@ p[style*="color: red"] {
     padding: 0 !important;
     box-shadow: none !important;
     border-radius: 0 !important;
+}
+
+.dashboard-section {
+    margin-top: 32px;
+}
+
+.section-header {
+    margin-bottom: 16px;
+}
+
+.section-header h2 {
+    font-size: 22px;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+.section-header p {
+    color: #777;
+    font-size: 14px;
+}
+
+.stage-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.stage-summary-card {
+    background: #fff;
+    border: 1px solid #a1aaa3;
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+}
+
+.stage-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.stage-name span {
+    display: block;
+    font-size: 12px;
+    color: #999;
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+.stage-count {
+    font-size: 28px;
+    font-weight: 800;
+    color: #56d27f;
+}
+
+.stage-count span {
+    font-size: 13px;
+    margin-left: 4px;
+    color: #777;
+}
+
+.stage-chart-card {
+    background: #fff;
+    border: 1px solid #a1aaa3;
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+}
+
+.stage-chart-card h3 {
+    font-size: 18px;
+    margin-bottom: 18px;
+    color: #333;
+}
+
+.stage-bar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.stage-bar-row {
+    display: grid;
+    grid-template-columns: 120px 1fr 48px;
+    align-items: center;
+    gap: 12px;
+}
+
+.stage-bar-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #555;
+}
+
+.stage-bar-track {
+    height: 14px;
+    background: #f0f3f8;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.stage-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #56d27f, #b5ffdb);
+    border-radius: 999px;
+    min-width: 0;
+}
+
+.stage-bar-count {
+    font-size: 13px;
+    font-weight: 700;
+    color: #555;
+    text-align: right;
+}
+
+@media (max-width: 600px) {
+    .stage-bar-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .stage-bar-count {
+        text-align: left;
+    }
 }
