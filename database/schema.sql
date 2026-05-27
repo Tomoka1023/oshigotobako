@@ -77,15 +77,38 @@ CREATE TABLE tasks (
     ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- =========================
+-- 添付ファイル
+-- =========================
 CREATE TABLE attachments (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    target_type VARCHAR(50) NOT NULL,
-    target_id INT NOT NULL,
-    original_name VARCHAR(255) NOT NULL,
-    saved_name VARCHAR(255) NOT NULL,
-    file_path VARCHAR(255) NOT NULL,
-    mime_type VARCHAR(100) DEFAULT NULL,
-    file_size INT DEFAULT NULL,
-    uploaded_by INT DEFAULT NULL,
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  target_type VARCHAR(50) NOT NULL,
+  target_id INT NOT NULL,
+  original_name VARCHAR(255) NOT NULL,
+  saved_name VARCHAR(255) NOT NULL,
+  file_path VARCHAR(255) NOT NULL,
+  mime_type VARCHAR(100) DEFAULT NULL,
+  file_size INT DEFAULT NULL,
+  uploaded_by INT DEFAULT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- =========================
+-- 操作ログ
+-- =========================
+CREATE TABLE operation_logs (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NULL,
+  action VARCHAR(50) NOT NULL,
+  target_type VARCHAR(50) DEFAULT NULL,
+  target_id INT DEFAULT NULL,
+  target_name VARCHAR(255) DEFAULT NULL,
+  message TEXT NOT NULL,
+  ip_address VARCHAR(45) DEFAULT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+  CONSTRAINT fk_operation_logs_user
+    FOREIGN KEY (user_id)
+    REFERENCES users(id)
+    ON DELETE SET NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
